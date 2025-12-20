@@ -1,0 +1,28 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: mysql_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ttd
+      MYSQL_USER: rooti
+      MYSQL_PASSWORD: rooti
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: phpmyadmin_ui
+    restart: always
+    links:
+      - db
+    environment:
+      PMA_HOST: db
+    ports:
+      - "8080:80"
+
+volumes:
+  db_data:
