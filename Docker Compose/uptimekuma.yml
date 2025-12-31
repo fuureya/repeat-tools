@@ -1,0 +1,42 @@
+version: "3.8"
+
+services:
+  uptime-kuma:
+    container_name: uptime-kuma
+    image: louislam/uptime-kuma:2
+    restart: always
+    ports:
+      - "3001:3001"
+    volumes:
+      - uptime-kuma:/app/data
+    depends_on:
+      - mysql
+
+  mysql:
+    container_name: kuma-mysql
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "@@R4m@ldulu2025"
+      MYSQL_DATABASE: kuma
+      MYSQL_USER: kuma
+      MYSQL_PASSWORD: "@@R4m@ldulu2025"
+    volumes:
+      - kuma-mysql:/var/lib/mysql
+
+  phpmyadmin:
+    container_name: kuma-phpmyadmin
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: kuma
+      PMA_PASSWORD: "@@R4m@ldulu2025"
+    ports:
+      - "8080:80"
+    depends_on:
+      - mysql
+
+volumes:
+  uptime-kuma:
+  kuma-mysql:
